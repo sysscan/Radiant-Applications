@@ -1,0 +1,24 @@
+{
+  "name": "discord-staff-application-bot",
+  "version": "1.0.0",
+  "description": "A Discord bot for handling staff applications through slash commands",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "deploy": "node src/utils/deployCommands.js",
+    "dev": "node --watch src/index.js"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "staff",
+    "application",
+    "slash-commands"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.14.1"
+  }
+}

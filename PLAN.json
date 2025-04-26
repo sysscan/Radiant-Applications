@@ -1,0 +1,44 @@
+{
+  "name": "Discord Staff Application Bot",
+  "description": "A Discord bot for handling staff applications through slash commands",
+  "version": "1.0.0",
+  "requirements": {
+    "noComments": "No comments in the codebase",
+    "noTryCatch": "No try/catch blocks, let errors run free",
+    "feedback": "Proper user/developer/terminal feedback and debugging",
+    "syntax": "Follow modern JavaScript practices and proper syntax",
+    "discordjs": "Use only the latest features of discord.js"
+  },
+  "structure": {
+    "src": {
+      "index.js": "Main entry point",
+      "config.json": "Bot configuration (token, guild IDs, etc.)",
+      "commands": {
+        "apply.js": "Staff application command",
+        "setup.js": "Setup command for configuration"
+      },
+      "events": {
+        "interactionCreate.js": "Handler for interactions (slash commands, buttons, etc.)",
+        "ready.js": "Bot ready event handler"
+      },
+      "utils": {
+        "deployCommands.js": "Utility for registering slash commands"
+      }
+    }
+  },
+  "features": {
+    "staffApplications": {
+      "customizable": "Allow server admins to customize application questions",
+      "modal": "Use Discord modals for application input",
+      "review": "Staff can review applications and approve/deny them"
+    },
+    "slashCommands": {
+      "apply": "Starts the application process",
+      "setup": "Configure application settings"
+    }
+  },
+  "github": {
+    "private": true,
+    "setup": "Initialize git repository and connect to private GitHub repo"
+  }
+}

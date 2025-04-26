@@ -8,6 +8,7 @@ A Discord bot for handling staff applications through slash commands.
 - Application form using Discord modals
 - Staff review system with approve/deny actions
 - Application notifications
+- Open/close applications functionality
 
 ## Setup
 
@@ -40,10 +41,13 @@ A Discord bot for handling staff applications through slash commands.
 ### Admin Commands
 
 - `/setup channel:channel staff_role:role admin_role:role` - Configure the staff application system
+- `/applications open` - Open staff applications to the public
+- `/applications close` - Close staff applications to the public
+- `/applications status` - Check if applications are currently open or closed
 
 ### User Commands
 
-- `/apply` - Apply for a staff position
+- `/apply` - Apply for a staff position (only works when applications are open)
 
 ## Development
 

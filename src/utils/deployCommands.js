@@ -1,11 +1,13 @@
 import { REST, Routes } from 'discord.js';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { readdirSync } from 'fs';
-import config from '../config.json' assert { type: 'json' };
+import { readdirSync, readFileSync } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+const configPath = join(dirname(__dirname), 'config.json');
+const config = JSON.parse(readFileSync(configPath, 'utf8'));
 
 const commands = [];
 const commandsPath = join(dirname(__dirname), 'commands');

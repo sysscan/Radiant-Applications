@@ -2,10 +2,35 @@ import { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, ActionRowBuilde
 import { writeFile } from 'fs/promises';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import config from '../config.json' assert { type: 'json' };
+import config from '../utils/config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+// Helper function to create application embed based on status
+const createApplicationEmbed = (isOpen) => {
+  const status = isOpen ? 'open' : 'closed';
+  const statusText = isOpen 
+    ? 'Applications are currently open! Click the button below to apply.' 
+    : 'Applications are currently closed. Please check back later.';
+  
+  return new EmbedBuilder()
+    .setColor('#5865F2')
+    .setTitle('Staff Applications')
+    .setDescription(`We are looking for new staff members!\n\n**Status: ${status.toUpperCase()}**\n${statusText}`)
+    .setTimestamp();
+};
+
+// Helper function to create button row
+const createButtonRow = () => {
+  return new ActionRowBuilder()
+    .addComponents(
+      new ButtonBuilder()
+        .setCustomId('application:apply:new')
+        .setLabel('Apply for Staff')
+        .setStyle(ButtonStyle.Primary)
+    );
+};
 
 export default {
   data: new SlashCommandBuilder()
@@ -94,22 +119,16 @@ export default {
       modal.addComponents(...questionInputs);
       await interaction.showModal(modal);
     } else if (action === 'message') {
-      const embed = new EmbedBuilder()
-        .setColor('#5865F2')
-        .setTitle('Staff Applications')
-        .setDescription('We are looking for new staff members! Click the button below to apply.')
-        .setTimestamp();
-      
-      const button = new ActionRowBuilder()
-        .addComponents(
-          new ButtonBuilder()
-            .setCustomId('application:apply:new')
-            .setLabel('Apply for Staff')
-            .setStyle(ButtonStyle.Primary)
-        );
+      const embed = createApplicationEmbed(config.applicationsOpen);
+      const button = createButtonRow();
       
       const channel = await interaction.guild.channels.fetch(config.applicationChannelId);
-      await channel.send({ embeds: [embed], components: [button] });
+      const message = await channel.send({ embeds: [embed], components: [button] });
+      
+      const newConfig = { ...config };
+      newConfig.applicationMessageId = message.id;
+      const configPath = join(__dirname, '..', 'config.json');
+      await writeFile(configPath, JSON.stringify(newConfig, null, 2));
       
       await interaction.reply({ content: 'Application message created successfully!', ephemeral: true });
     }

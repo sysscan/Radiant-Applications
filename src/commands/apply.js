@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
-import config from '../config.json' assert { type: 'json' };
+import config from '../utils/config.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -7,6 +7,21 @@ export default {
     .setDescription('Apply for a staff position'),
     
   async execute(interaction) {
+    // Check if applications are open or if user is staff/admin
+    if (!config.applicationsOpen && 
+        !interaction.member.roles.cache.has(config.staffRoleId) && 
+        !interaction.member.roles.cache.has(config.adminRoleId)) {
+      
+      const closedEmbed = new EmbedBuilder()
+        .setColor('#FF0000')
+        .setTitle('Applications Closed')
+        .setDescription('Staff applications are currently closed.')
+        .setTimestamp();
+        
+      await interaction.reply({ embeds: [closedEmbed], ephemeral: true });
+      return;
+    }
+    
     const modal = new ModalBuilder()
       .setCustomId('application:submit:new')
       .setTitle('Staff Application');
@@ -28,6 +43,21 @@ export default {
   
   async handleButton(interaction, action, id) {
     if (action === 'apply') {
+      // Check if applications are open or if user is staff/admin
+      if (!config.applicationsOpen && 
+          !interaction.member.roles.cache.has(config.staffRoleId) && 
+          !interaction.member.roles.cache.has(config.adminRoleId)) {
+        
+        const closedEmbed = new EmbedBuilder()
+          .setColor('#FF0000')
+          .setTitle('Applications Closed')
+          .setDescription('Staff applications are currently closed.')
+          .setTimestamp();
+          
+        await interaction.reply({ embeds: [closedEmbed], ephemeral: true });
+        return;
+      }
+      
       await this.execute(interaction);
     } else if (action === 'approve' || action === 'deny') {
       if (!interaction.member.roles.cache.has(config.staffRoleId) && 

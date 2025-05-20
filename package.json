@@ -1,0 +1,23 @@
+{
+  "name": "status-application-bot",
+  "version": "1.0.0",
+  "description": "Discord status bot with staff application system, bulk updates, mod logging, and permission checks",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start:bun": "bun run index.js",
+    "deploy": "node deploy-commands.js",
+    "deploy:bun": "bun run deploy-commands.js",
+    "direct-deploy": "node deploy-direct.js",
+    "direct-deploy:bun": "bun run deploy-direct.js",
+    "dev": "node --watch index.js",
+    "dev:bun": "bun --watch index.js"
+  },
+  "dependencies": {
+    "@keyv/sqlite": "^4.0.4",
+    "discord.js": "^14.0.0",
+    "dotenv": "^16.0.0",
+    "keyv": "^5.3.3",
+    "sqlite3": "^5.1.6"
+  }
+}
